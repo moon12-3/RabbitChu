@@ -11,6 +11,8 @@ public class ScoreUserDB {
         String userName = "root";
         String password = "@summer0573";
 
+        new DBHelper();
+
 //        String name;
 //        int first_score;
 //        boolean first_clear;
