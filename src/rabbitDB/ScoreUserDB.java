@@ -2,16 +2,14 @@ package rabbitDB;
 
 import java.sql.*;
 
-import static java.sql.Types.NULL;
-
-//값 입력~!~!~!~!~!
+//유저 점수 저장
 public class ScoreUserDB {
     public ScoreUserDB(){
         String url = "jdbc:mysql://localhost:3306/rabbitScoreDB";
         String userName = "root";
         String password = "@summer0573";
 
-        new DBHelper();
+        //new ScoreDBHelper();
 
 //        String name;
 //        int first_score;
@@ -33,7 +31,6 @@ public class ScoreUserDB {
         try{
             Connection connection = DriverManager.getConnection(url, userName, password);
             Statement stmt = connection.createStatement();
-
             stmt.executeUpdate(" INSERT INTO rabbit_table(name, first_score, first_clear, second_score, second_clear)" +
                     "VALUES ('" + name + "', '" + first_score + "', '" + first_clear + "', '" + second_score + "', '" + second_clear + "')");//테이블에 스코어를 추가 시키는 큐리문
             System.out.println("데이터 저장 성공");
