@@ -11,9 +11,11 @@ public class UserDB {
 //        String name; //사용자 닉네임
 //        String userPassword; //사용자 비밀번호
 
+        new UserDBHelper(); // 유저 테이블이 없을 경우 유저 정보 저장 테이블 생성함
+
         //임시
-        String name = "테스트"; //사용자 닉네임
-        String userPassword = "test1234"; //사용자 비밀번호
+        String name = "김마스으"; //사용자 닉네임
+        String userPassword = "asdfasdf"; //사용자 비밀번호
         //이름은 20자가 넘지 않도록, 비밀번호는 50자가 넘지 않도록
 
         try{

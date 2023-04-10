@@ -20,7 +20,7 @@ public class ShowStage2RankingDB {
             System.out.println( rank + "등\t" +
                     rs.getString("name") + "\t" +
                     rs.getInt("second_score") + "\t"
-                    );
+            );
             rank++;
         }
 

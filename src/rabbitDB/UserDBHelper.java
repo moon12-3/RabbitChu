@@ -19,7 +19,9 @@ public class UserDBHelper {
             url = "jdbc:mysql://localhost/rabbitScoreDB?serverTimezone=UTC";
             connection = DriverManager.getConnection(url, userName, password);
             stmt = connection.createStatement();
-            createSql = "CREATE TABLE IF NOT EXISTS User_table(name varchar(20), userPassword varchar(50));";
+            createSql = "CREATE TABLE IF NOT EXISTS User_table(" +
+                    "name varchar(20) PRIMARY KEY," + //PRIMARY KEY으로 설정하여 중복값을 넣ㅈㅣ 않도록 함
+                    " userPassword varchar(50));";
             //^tableㅇㅣ 없다면 table를 만들어라
             stmt.executeUpdate(createSql);
             stmt.close();

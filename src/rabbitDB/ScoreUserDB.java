@@ -9,7 +9,7 @@ public class ScoreUserDB {
         String userName = "root";
         String password = "@summer0573";
 
-        //new ScoreDBHelper();
+        new ScoreDBHelper(); // 점수 테이블이 없을 경우 점수 저장 테이블 생성함
 
 //        String name;
 //        int first_score;
@@ -19,11 +19,11 @@ public class ScoreUserDB {
 
         //임시 데이터
         //추후 입력값 받아 저장
-        String name = "손제티";
-        int first_score = 22222;
+        String name = "김마스";
+        int first_score = 72654;
         int first_clear = 1;
-        int second_score = 33333;
-        int second_clear = 1;
+        int second_score = 65442;
+        int second_clear = 0;
         //true = 1 / false = 0
         //mysql의 boolean은 0, 1로 입력
         //^자바에서만인가... 왜지
