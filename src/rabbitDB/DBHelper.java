@@ -9,7 +9,7 @@ public class DBHelper {
     public DBHelper() {
         String url = "jdbc:mysql://127.0.0.1/?useSSL=false&user=root&password=@summer0573";
         String userName = "root";
-        String password = "@summer0573";
+        String password = "@summer0573";//test
         try {
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("드라이버 연결 성공!");

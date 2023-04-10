@@ -27,7 +27,7 @@ public class GameOver extends JFrame{
 
     }
 
-    public GameOver() throws IOException, FontFormatException {
+    public GameOver() throws FontFormatException {
         super("over"); // 타이틀
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
