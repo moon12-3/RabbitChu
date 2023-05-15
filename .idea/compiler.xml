@@ -2,7 +2,7 @@
 <project version="4">
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="untitled" options="--add-exports jdk.scripting.nashorn/jdk.nashorn.internal.runtime.regexp.joni=ALL-UNNAMED" />
+      <module name="untitled" options="--add-exports jdk.scripting.nashorn/jdk.nashorn.internal.runtime.regexp.joni=ALL-UNNAMED --add-exports jdk.hotspot.agent/sun.jvm.hotspot.debugger.windbg=ALL-UNNAMED" />
     </option>
   </component>
 </project>

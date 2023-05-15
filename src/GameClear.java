@@ -26,7 +26,7 @@ public class GameClear extends JFrame {
         this.clearscore = clearscore;
     }
 
-    Image backGround = new ImageIcon("src/img/back_gameclear.png").getImage();
+    Image backGround = new ImageIcon("src/img/GAME_CLEAR.png").getImage();
 
     public void init() { // 컴포넌트 세팅
         width = 1200;
@@ -62,29 +62,29 @@ public class GameClear extends JFrame {
         }
 
         // 버튼 추가 및 설정
-        JButton btnIntro = new JButton("메인으로");
-        btnIntro.setBounds(250, 530, 230, 80);
-        btnIntro.setFont(font.deriveFont(Font.BOLD, 40));
-        btnIntro.setForeground(colorBrown);
-        btnIntro.setHorizontalAlignment(JLabel.CENTER);
-        btnIntro.setBorderPainted(false);
-        btnIntro.setContentAreaFilled(false);
-        btnIntro.setFocusPainted(false);
+        JButton toRank = new JButton("");
+        toRank.setBounds(370, 620, 200, 50);
+        toRank.setFont(font.deriveFont(Font.BOLD, 40));
+        toRank.setForeground(colorBrown);
+        toRank.setHorizontalAlignment(JLabel.CENTER);
+        toRank.setBorderPainted(false);
+        toRank.setContentAreaFilled(false);
+        toRank.setFocusPainted(false);
 
-        JButton btnSave = new JButton("저장하기");
-        btnSave.setBounds(710, 530, 230, 80);
-        btnSave.setFont(font.deriveFont(Font.BOLD, 40));
-        btnSave.setForeground(colorBrown);
-        btnSave.setHorizontalAlignment(JLabel.CENTER);
-        btnSave.setBorderPainted(false);
-        btnSave.setContentAreaFilled(false);
-        btnSave.setFocusPainted(false);
+        JButton moveMain = new JButton("");
+        moveMain.setBounds(650, 620, 200, 50);
+        moveMain.setFont(font.deriveFont(Font.BOLD, 40));
+        moveMain.setForeground(colorBrown);
+        moveMain.setHorizontalAlignment(JLabel.CENTER);
+        moveMain.setBorderPainted(false);
+        moveMain.setContentAreaFilled(false);
+        moveMain.setFocusPainted(false);
 
-        panel.add(btnIntro);
-        panel.add(btnSave);
+        panel.add(toRank);
+        panel.add(moveMain);
 
         // 화면 전환용 리스너
-        btnIntro.addActionListener(new ActionListener() {
+        moveMain.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Intro();
@@ -93,21 +93,16 @@ public class GameClear extends JFrame {
             }
         });
 
-        btnSave.addActionListener(new ActionListener() {
+        toRank.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Input input = new Input();
-                    // 게임 점수 전달
-                    input.labelGetScore.setText(Integer.toString(clearscore));
-                    input.setScore(clearscore);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (FontFormatException ex) {
-                    ex.printStackTrace();
-                }
+                //                    Input input = new Input();
+                // 게임 점수 전달
+//                    input.labelGetScore.setText(Integer.toString(clearscore));
+//                    input.setScore(clearscore);
+                new NewRank();
                 ost.stop();
-                setVisible(false); // 창 안보이게 하기
+                setVisible(false);
             }
         });
 
