@@ -15,8 +15,9 @@ public class Ready extends JFrame {
     Font font;
 
     // 사용 이미지 불러오기
-    ImageIcon backGround1 = new ImageIcon("src/img/back_ready1.png");
-    ImageIcon backGround2 = new ImageIcon("src/img/back_ready2.png");
+    ImageIcon backGround1 = new ImageIcon("src/img/how/HOW_BASIC.png");
+    ImageIcon backGround2 = new ImageIcon("src/img/HOW_ITEM.png");
+    ImageIcon backGround3 = new ImageIcon("src/img/HOW_MONSTER.png");
     Image backGround;
     ImageIcon introIcon = new ImageIcon("src/img/back_intro.png");
     ImageIcon nextIcon = new ImageIcon("src/img/btn_next.png");
@@ -54,14 +55,16 @@ public class Ready extends JFrame {
         }
 
         // 버튼, 라벨 추가 및 설정
+
         JButton btnNext = new JButton(nextIcon);
-        btnNext.setBounds(1025, 120, 50, 70);
+        btnNext.setBounds(900, 270, 50, 70);
         btnNext.setBorderPainted(false);
         btnNext.setContentAreaFilled(false);
         btnNext.setFocusPainted(false);
 
+        // 이전으로 넘기기 버튼
         JButton btnPre = new JButton(preIcon);
-        btnPre.setBounds(125, 120, 50, 70);
+        btnPre.setBounds(240, 270, 50, 70);
         btnPre.setBorderPainted(false);
         btnPre.setContentAreaFilled(false);
         btnPre.setFocusPainted(false);
