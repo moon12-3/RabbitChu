@@ -68,16 +68,23 @@ public class Rank extends JFrame {
         nameLabel.setHorizontalAlignment(JLabel.CENTER);
         nameLabel.setFont(font.deriveFont(Font.BOLD, 43));
         nameLabel.setForeground(colorBrown);
-        nameLabel.setBounds(315, 170, 150, 65);
+        nameLabel.setBounds(200, 170, 150, 65);
 
-        JLabel scoreLabel = new JLabel("SCORE");
-        scoreLabel.setHorizontalAlignment(JLabel.CENTER);
-        scoreLabel.setFont(font.deriveFont(Font.BOLD, 43));
-        scoreLabel.setForeground(colorBrown);
-        scoreLabel.setBounds(735, 170, 150, 65);
+        JLabel firstScoreLabel = new JLabel("STAGE1");
+        firstScoreLabel.setHorizontalAlignment(JLabel.CENTER);
+        firstScoreLabel.setFont(font.deriveFont(Font.BOLD, 43));
+        firstScoreLabel.setForeground(colorBrown);
+        firstScoreLabel.setBounds(500, 170, 150, 65);
+
+        JLabel secondScoreLabel = new JLabel("STAGE2");
+        secondScoreLabel.setHorizontalAlignment(JLabel.CENTER);
+        secondScoreLabel.setFont(font.deriveFont(Font.BOLD, 43));
+        secondScoreLabel.setForeground(colorBrown);
+        secondScoreLabel.setBounds(820, 170, 150, 65);
 
         panel.add(nameLabel);
-        panel.add(scoreLabel);
+        panel.add(firstScoreLabel);
+        panel.add(secondScoreLabel);
         panel.add(btnIntro);
 
         // 화면 전환용 리스너
@@ -92,36 +99,42 @@ public class Rank extends JFrame {
 
         // db table에서 select하여 상위 5개 순위 보여주기
         DBcon db = new DBcon();
-
-        // db select
+//
+//        // db select
         Statement st = db.getCon().createStatement();
-        ResultSet resultSet = st.executeQuery("SELECT * FROM " +
-                "( SELECT * FROM ham_score ORDER BY userScore DESC )A " +
-                "LIMIT 5");
+        ResultSet resultSet = st.executeQuery("SELECT * FROM rabbit_table ORDER BY (first_score + second_score) DESC LIMIT 5;");
         // 서브 쿼리를 활용하여 데이터 정렬
         // limit을 활용하여 불러오는 값을 5개로 제한
 
         // 불러온 값을 next하여 각 jlabel 배열에 저장 후 add 하여 화면에 출력
         int i=0;
         while(resultSet.next()){
-            String name = resultSet.getString("userName");
-            int score = resultSet.getInt("userScore");
+            String name = resultSet.getString("name");
+            int first_score = resultSet.getInt("first_score");
+            int second_score = resultSet.getInt("second_score");
 
             nameArr[i] = new JLabel(name);
             nameArr[i].setFont(font.deriveFont(Font.BOLD, 40));
             nameArr[i].setForeground(colorBrown);
-            nameArr[i].setBounds(315, 270+70*i, 150, 60);
+            nameArr[i].setBounds(200, 270+70*i, 150, 60);
             nameArr[i].setHorizontalAlignment(JLabel.CENTER);
             panel.add(nameArr[i]);
 
-            scoreArr[i] = new JLabel(Integer.toString(score));
+            scoreArr[i] = new JLabel(Integer.toString(first_score));
             scoreArr[i].setFont(font.deriveFont(Font.BOLD, 40));
             scoreArr[i].setForeground(colorBrown);
-            scoreArr[i].setBounds(735, 270+70*i, 150, 60);
+            scoreArr[i].setBounds(500, 270+70*i, 150, 60);
             scoreArr[i].setHorizontalAlignment(JLabel.CENTER);
             panel.add(scoreArr[i]);
 
-            System.out.println(name+" "+score);
+            scoreArr[i] = new JLabel(Integer.toString(second_score));
+            scoreArr[i].setFont(font.deriveFont(Font.BOLD, 40));
+            scoreArr[i].setForeground(colorBrown);
+            scoreArr[i].setBounds(820, 270+70*i, 150, 60);
+            scoreArr[i].setHorizontalAlignment(JLabel.CENTER);
+            panel.add(scoreArr[i]);
+
+            System.out.println(name+" "+first_score+" "+second_score);
             i++;
         }
 

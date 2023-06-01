@@ -19,10 +19,10 @@ public class ScoreUserDB {
 
         //임시 데이터
         //추후 입력값 받아 저장
-        String name = "김마스";
-        int first_score = 72654;
-        int first_clear = 1;
-        int second_score = 65442;
+        String name = "정현진";
+        int first_score = 0;
+        int first_clear = 0;
+        int second_score = 0;
         int second_clear = 0;
         //true = 1 / false = 0
         //mysql의 boolean은 0, 1로 입력

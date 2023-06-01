@@ -21,7 +21,12 @@ public class DBHelper {
             url="jdbc:mysql://localhost/rabbitScoreDB?serverTimezone=UTC";
             connection = DriverManager.getConnection(url, userName,password);
             stmt = connection.createStatement();
-            createSql = "CREATE TABLE IF NOT EXISTS rabbit_table(name varchar(20), first_score int, first_clear  tinyint(1), second_score int, second_clear tinyint(1));";
+            createSql = "CREATE TABLE IF NOT EXISTS rabbit_table(" +
+                    "name varchar(20)," +
+                    "first_score int," +
+                    "first_clear  tinyint(1)," +
+                    "second_score int," +
+                    "second_clear tinyint(1));";
             //^tableㅇㅣ 없다면 table를 만들어라
             stmt.executeUpdate(createSql);
             stmt.close();
