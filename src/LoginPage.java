@@ -1,15 +1,19 @@
+import javax.naming.Name;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 
 public class LoginPage extends JFrame {
     private static final int FRAME_WIDTH = 1200;
     private static final int FRAME_HEIGHT = 800;
     private JPanel panel;
+
+    public Font font;
 
     public LoginPage() {
         // JFrame 타이틀 설정
@@ -32,16 +36,64 @@ public class LoginPage extends JFrame {
         panel.setLayout(new FlowLayout());
         panel.setLayout(null);
 
+        // TextField 폰트 설정
+        // 외부 폰트 사용하기
+        try {
+            InputStream inputStream = new BufferedInputStream(
+                    new FileInputStream("src/font/dunggeunmo.ttf"));
+
+            font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            font = font.deriveFont(20f);
+
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+        }
+
         // loginText 생성
-        JTextField NameText = new JTextField(20);
+        JTextField NameText = new JTextField("이름을 입력하세요");
         NameText.setBounds(350, 235, 400, 50);
 //        loginText.setOpaque(false);
         NameText.setBorder(BorderFactory.createEmptyBorder());
+        NameText.setFont(font);
+        NameText.setForeground(Color.GRAY);
+        NameText.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(NameText.getText().equals("이름을 입력하세요")) {
+                    NameText.setText("");
+                    NameText.setForeground(Color.black);
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(NameText.getText().isEmpty()) {
+                    NameText.setForeground(Color.GRAY);
+                    NameText.setText("이름을 입력하세요");
+                }
+            }
+        });
 
-        JTextField PasswordText = new JTextField(20);
+        JTextField PasswordText = new JTextField("비밀번호를 입력하세요");
         PasswordText.setBounds(350, 385, 400, 50);
-
         PasswordText.setBorder(BorderFactory.createEmptyBorder());
+        PasswordText.setFont(font);
+        PasswordText.setForeground(Color.GRAY);
+        PasswordText.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(PasswordText.getText().equals("비밀번호를 입력하세요")) {
+                    PasswordText.setText("");
+                    PasswordText.setForeground(Color.black);
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(PasswordText.getText().isEmpty()) {
+                    PasswordText.setForeground(Color.GRAY);
+                    PasswordText.setText("비밀번호를 입력하세요");
+                }
+            }
+        });
 
         JButton LoginBtn = new JButton("");
         LoginBtn.setBounds(370, 500,150, 50);

@@ -14,14 +14,20 @@ public class Ready extends JFrame {
 
     Font font;
 
-    // 사용 이미지 불러오기
-    ImageIcon backGround1 = new ImageIcon("src/img/how/HOW_BASIC.png");
-    ImageIcon backGround2 = new ImageIcon("src/img/HOW_ITEM.png");
-    ImageIcon backGround3 = new ImageIcon("src/img/HOW_MONSTER.png");
+    // 설명 이미지 배열
+    ImageIcon[] Images = {
+        new ImageIcon("src/img/how/HOW_BASIC.png"),
+        new ImageIcon("src/img/how/HOW_ITEM.png"),
+        new ImageIcon("src/img/how/HOW_MONSTER.png"),
+    };
+
+    // 이미지 배열 인덱스
+    int count = 0;
+
     Image backGround;
-    ImageIcon introIcon = new ImageIcon("src/img/back_intro.png");
-    ImageIcon nextIcon = new ImageIcon("src/img/btn_next.png");
-    ImageIcon preIcon = new ImageIcon("src/img/btn_pre.png");
+    ImageIcon introIcon = new ImageIcon("src/img/how/HOW_START_BUTTON.png");
+    ImageIcon nextIcon = new ImageIcon("src/img/how/HOW_RIGHT_BUTTON.png");
+    ImageIcon preIcon = new ImageIcon("src/img/how/HOW_LEFT_BUTTON.png");
 
     public void init() { // 컴포넌트 세팅
         width = 1200;
@@ -41,7 +47,7 @@ public class Ready extends JFrame {
 
         MyPanel panel = new MyPanel();
         panel.setLayout(null);
-        backGround = backGround1.getImage();
+        backGround = Images[0].getImage();
 
         // 외부 폰트 사용하기
         try {
@@ -55,23 +61,23 @@ public class Ready extends JFrame {
         }
 
         // 버튼, 라벨 추가 및 설정
-
         JButton btnNext = new JButton(nextIcon);
-        btnNext.setBounds(900, 270, 50, 70);
+        btnNext.setBounds(895, 260, 75, 90);
         btnNext.setBorderPainted(false);
         btnNext.setContentAreaFilled(false);
         btnNext.setFocusPainted(false);
+        btnNext.setVisible(true);
 
         // 이전으로 넘기기 버튼
         JButton btnPre = new JButton(preIcon);
-        btnPre.setBounds(240, 270, 50, 70);
+        btnPre.setBounds(230, 260, 75, 90);
         btnPre.setBorderPainted(false);
         btnPre.setContentAreaFilled(false);
         btnPre.setFocusPainted(false);
         btnPre.setVisible(false);
 
         JButton btnIntro = new JButton(introIcon);
-        btnIntro.setBounds(40, 655, 90, 90);
+        btnIntro.setBounds(945, 665, 198, 78);
         btnIntro.setBorderPainted(false);
         btnIntro.setContentAreaFilled(false);
         btnIntro.setFocusPainted(false);
@@ -86,21 +92,55 @@ public class Ready extends JFrame {
         this.setResizable(false);
 
         // 화면 전환용 리스너
+        // 이전 페이지
         btnPre.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                backGround = backGround1.getImage();
-                btnNext.setVisible(true);
-                btnPre.setVisible(false);
+                // 첫 페이지일 경우
+                if(count == 0) {
+                    btnPre.setVisible(false);
+                    btnNext.setVisible(true);
+                    System.out.println("current index : " + count);
+                }
+                else {
+                    count--;
+                    backGround = Images[count].getImage();
+                    btnPre.setVisible(true);
+                    btnNext.setVisible(true);
+                    System.out.println("current index : " + count);
+                    if(count == 0) {
+                        btnPre.setVisible(false);
+                        btnNext.setVisible(true);
+                        System.out.println("first page!!!");
+                    }
+                }
             }
         });
-
+        // 다음 페이지
         btnNext.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                backGround = backGround2.getImage();
-                btnNext.setVisible(false);
                 btnPre.setVisible(true);
+                // 마지막 페이지일 경우
+                if(count == 2) {
+                    System.out.println("last page!!!");
+                    btnNext.setVisible(false);
+                    btnPre.setVisible(true);
+                    System.out.println("current index : " + count);
+                }
+                else {
+                    count++;
+                    backGround = Images[count].getImage();
+                    btnNext.setVisible(true);
+                    btnPre.setVisible(true);
+                    System.out.println("current index : " + count);
+                    if(count == 2) {
+                        System.out.println("last page!!!");
+                        btnNext.setVisible(false);
+                        btnPre.setVisible(true);
+                    }
+                }
+
             }
         });
 
