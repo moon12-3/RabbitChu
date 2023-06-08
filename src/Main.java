@@ -102,11 +102,11 @@ class Frame_make extends JFrame implements KeyListener, Runnable{
     public void init() { // 컴포넌트 세팅
         x = 100; //캐릭터의 최초 좌표.
         y = 100;
-        hp = 100;    // 초기 캐릭터 생명 (하트 3개)
+        hp = 233;    // 초기 캐릭터 생명 (하트 3개)
         width = 1200;
         height = 800;
         speed = 10;
-        gameCnt = 0;    // 보스전 테스트 시 2000으로 설정하면 됨
+        gameCnt = 2000;    // 보스전 테스트 시 2000으로 설정하면 됨
         buDamage = 5;
         playerStatus = 0;
 

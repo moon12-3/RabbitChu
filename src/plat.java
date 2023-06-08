@@ -38,7 +38,7 @@ class Frame_make2 extends JFrame implements KeyListener, Runnable{
     Enemy en;
 
     Frame_make2() {
-        super("햄모험");
+        super("래빗츄");
         init();
         setSize(width, height);
         start();
