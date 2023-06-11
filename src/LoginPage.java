@@ -12,7 +12,6 @@ public class LoginPage extends JFrame {
     private static final int FRAME_WIDTH = 1200;
     private static final int FRAME_HEIGHT = 800;
     private JPanel panel;
-
     public Font font;
 
     public LoginPage() {
@@ -174,12 +173,12 @@ public class LoginPage extends JFrame {
         // DB 연결 정보
         String url = "jdbc:mysql://localhost:3306/rabbitScoreDB"; // DB 접속 URL
         String user = "root"; // DB 접속 계정
-        String passwd = "mirim"; // DB 접속 비밀번호
+        String passwd = "@summer0573"; // DB 접속 비밀번호
 
         // DB 연결
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
+        Connection conn;
+        Statement stmt;
+        ResultSet rs;
         try {
             Class.forName("com.mysql.jdbc.Driver"); // JDBC 드라이버 로드
             conn = DriverManager.getConnection(url, user, passwd); // DB 접속

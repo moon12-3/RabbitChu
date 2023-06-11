@@ -10,6 +10,10 @@ public class SigninPage extends JFrame {
     private static final int FRAME_WIDTH = 1200;
     private static final int FRAME_HEIGHT = 800;
     private JPanel panel;
+    JLabel message; //회원가입 안내 확인창
+    JButton okBtn = new JButton("OK");; //확인창 버튼
+
+    boolean signTF;
 
     public SigninPage() {
         // JFrame 타이틀 설정
@@ -46,25 +50,7 @@ public class SigninPage extends JFrame {
         JPanel msgPanel = new JPanel();
 
         msgPanel.setLayout(new FlowLayout());
-//        msgPanel.setLayout(null);
-//        msgPanel.setSize(500, 300);
         msgPanel.setBounds(350, 300, 500, 200);
-        JLabel message = new JLabel("이미 존재하는 아이디 입니다.");
-
-        JButton cancelBtn2 = new JButton("cancel");
-        cancelBtn2.setBounds(10, 10, 10, 10);
-        cancelBtn2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // cancel 버튼 눌렀을 때 처리할 내용
-                msgPanel.setVisible(false);
-            }
-        });
-// 패널에 라벨과 버튼 패널 추가
-        msgPanel.add(message);
-        msgPanel.add(cancelBtn2);
-        msgPanel.setVisible(false);
-
 
         JButton SigninBtn = new JButton("");
         SigninBtn.setBounds(370, 500,150, 50);
@@ -72,20 +58,40 @@ public class SigninPage extends JFrame {
         SigninBtn.setContentAreaFilled(false);
         SigninBtn.setBorderPainted(false);
 
-
         SigninBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = NameText.getText();
                 String password = PasswordText.getText();
-                if (isValidUser(name, password)) {
-                    System.out.println("로그인 되었습니다.");
+                signTF = signInUser(name, password);
+                if (signTF == true){ //만약 회원가입이 성공(true)라면
+                    System.out.println(signTF);
+                    message = new JLabel("회원가입에 성공했습니다! 로그인 화면으로 돌아갑니다."); //라벨 내용을 성공 내용을 바꿈
                 } else {
-                    System.out.println("실패.");
-                    msgPanel.setVisible(true);
+                    System.out.println(signTF);
+                    message = new JLabel("이미 존재하는 아이디입니다.");
                 }
+                okBtn.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // cancel 버튼 눌렀을 때 처리할 내용
+                        if(signTF == true){
+                            new LoginPage();
+                        } else {
+                            msgPanel.setVisible(false);
+                        }
+
+                    }
+                });
+                okBtn.setBounds(10, 100, 10, 10);
+                msgPanel.add(message);
+                msgPanel.add(okBtn);
+                msgPanel.setVisible(true);
             }
         });
+
+        msgPanel.setVisible(false);
+
 
 //        JPanel panel = new JPanel(new BorderLayout());
 
@@ -149,16 +155,42 @@ public class SigninPage extends JFrame {
         // JFrame을 화면에 표시
         setVisible(true);
     }
+    private static boolean signInUser(String name, String password) {
+        // DB 연결 정보
+        String url = "jdbc:mysql://localhost:3306/rabbitScoreDB"; // DB 접속 URL
+        String user = "root"; // DB 접속 계정
+        String passwd = "@summer0573"; // DB 접속 비밀번호
+
+        // DB 연결
+        Connection conn;
+        Statement stmt;
+        ResultSet rs;
+
+        try{
+            conn = DriverManager.getConnection(url, user, passwd);
+            stmt = conn.createStatement();
+            stmt.executeUpdate(" INSERT INTO User_table(name, userPassword)" +
+                    "VALUES ('" + name + "', '" + password + "');");//테이블에 스코어를 추가 시키는 큐리문
+            System.out.println("데이터 저장 성공");
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+            System.out.println("데이터 저장 실패");
+            return false;
+        }
+
+    }
+
     private static boolean isValidUser(String name, String password) {
         // DB 연결 정보
         String url = "jdbc:mysql://localhost:3306/rabbitScoreDB"; // DB 접속 URL
         String user = "root"; // DB 접속 계정
-        String passwd = "mirim"; // DB 접속 비밀번호
+        String passwd = "@summer0573"; // DB 접속 비밀번호
 
         // DB 연결
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
+        Connection conn;
+        Statement stmt;
+        ResultSet rs;
         try {
             Class.forName("com.mysql.jdbc.Driver"); // JDBC 드라이버 로드
             conn = DriverManager.getConnection(url, user, passwd); // DB 접속
