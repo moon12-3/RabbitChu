@@ -144,7 +144,6 @@ public class LoginPage extends JFrame {
 
         });
 
-
         // JPanel을 JFrame에 추가
         add(NameText);
         add(PasswordText);
@@ -152,9 +151,6 @@ public class LoginPage extends JFrame {
         add(cancelBtn);
         add(SigninBtn);
         add(panel);
-
-
-
 
         addWindowListener(new WindowAdapter() {
             @Override

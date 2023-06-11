@@ -10,7 +10,7 @@ public class SigninPage extends JFrame {
     private static final int FRAME_WIDTH = 1200;
     private static final int FRAME_HEIGHT = 800;
     private JPanel panel;
-    JLabel message; //회원가입 안내 확인창
+    JLabel message = new JLabel(""); //회원가입 안내 확인창
     JButton okBtn = new JButton("OK");; //확인창 버튼
 
     boolean signTF;
@@ -64,6 +64,7 @@ public class SigninPage extends JFrame {
                 String name = NameText.getText();
                 String password = PasswordText.getText();
                 signTF = signInUser(name, password);
+                message.setText("");//message 라벨 내용 리셋
                 if (signTF == true){ //만약 회원가입이 성공(true)라면
                     System.out.println(signTF);
                     message = new JLabel("회원가입에 성공했습니다! 로그인 화면으로 돌아갑니다."); //라벨 내용을 성공 내용을 바꿈
@@ -83,13 +84,13 @@ public class SigninPage extends JFrame {
 
                     }
                 });
+                message.setBounds(10, 500, 100, 100);
                 okBtn.setBounds(10, 100, 10, 10);
                 msgPanel.add(message);
                 msgPanel.add(okBtn);
                 msgPanel.setVisible(true);
             }
         });
-
         msgPanel.setVisible(false);
 
 
