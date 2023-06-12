@@ -126,10 +126,13 @@ public class SigninPage extends JFrame {
                     System.out.println(signTF);
                     message = new JLabel("<html><body><center>회원가입에 성공했습니다.<br>" +
                             "<br>로그인 화면으로 돌아갑니다.<br></center></body></html>", JLabel.CENTER); //라벨 내용을 성공 내용을 바꿈
+                    message.setBounds(100, 20, 300, 100);
                 } else {
                     System.out.println(signTF);
                     message = new JLabel("이미 존재하는 아이디입니다.");
+                    message.setBounds(170, 20, 170, 100);
                 }
+                okBtn.setBounds(215, 120, 70, 40);
                 okBtn.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -144,8 +147,7 @@ public class SigninPage extends JFrame {
 
                     }
                 });
-//                message.setBounds(100, 500, 0, 0);
-//                okBtn.setBounds(10, 100, 10, 10);
+                msgPanel.setLayout(null);
                 msgPanel.add(message);
                 msgPanel.add(okBtn);
                 msgPanel.setVisible(true);
@@ -190,7 +192,6 @@ public class SigninPage extends JFrame {
 
 
         // JPanel을 JFrame에 추가
-
         add(NameText);
         add(PasswordText);
         add(SigninBtn);

@@ -1,4 +1,7 @@
 import javax.naming.Name;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -17,15 +20,20 @@ public class LoginPage extends JFrame {
     JButton okBtn = new JButton("OK");; //확인창 버튼
     public Font font;
     boolean signTF;
+    Clip ost;
 
     public LoginPage() {
-        // JFrame 타이틀 설정
         setTitle("YourName");
+
+        ost = Sound("src/bgm/intro.wav", true);
 
         Dimension screen = tk.getScreenSize();
         int xpos = (int) (screen.getWidth() / 2 - FRAME_WIDTH / 2);
         int ypos = (int) (screen.getHeight() / 2 - FRAME_HEIGHT / 2);
         setLocation(xpos, ypos);
+
+        // JFrame 크기 설정
+        setSize(FRAME_WIDTH, FRAME_HEIGHT);
 
         // 배경 이미지를 위한 JPanel 생성
         panel = new JPanel() {
@@ -121,15 +129,19 @@ public class LoginPage extends JFrame {
                 String name = NameText.getText();
                 String password = PasswordText.getText();
                 signTF = isValidUser(name, password);
+                msgPanel.setLayout(null);
                 message.setText("");//message 라벨 내용 리셋
                 if (signTF == true) {
                     System.out.println("로그인 되었습니다.");
                     message = new JLabel("<html><body><center>로그인되었습니다.<br>" +
                             "<br>게임을 실행합니다.<br></center></body></html>", JLabel.CENTER); //라벨 내용을 성공 내용을 바꿈
+                    message.setBounds(100, 20, 300, 100);
                 } else {
                     System.out.println("실패.");
                     message = new JLabel("회원정보가 틀렸습니다.");
+                    message.setBounds(180, 20, 150, 100);
                 }
+                okBtn.setBounds(215, 120, 70, 40);
                 okBtn.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -137,6 +149,7 @@ public class LoginPage extends JFrame {
                         if (signTF == true) {
                             dispose();
                             new Frame_make();
+                            ost.stop();
                             msgPanel.setVisible(false);
                         } else {
                             msgPanel.setVisible(false);
@@ -144,8 +157,6 @@ public class LoginPage extends JFrame {
 
                     }
                 });
-//                message.setBounds(100, 500, 0, 0);
-//                okBtn.setBounds(10, 100, 10, 10);
                 msgPanel.add(message);
                 msgPanel.add(okBtn);
                 msgPanel.setVisible(true);
@@ -200,9 +211,6 @@ public class LoginPage extends JFrame {
             }
         });
 
-        // JFrame 크기 설정
-        setSize(FRAME_WIDTH, FRAME_HEIGHT);
-
         // JFrame을 화면에 표시
         setVisible(true);
     }
@@ -242,6 +250,21 @@ public class LoginPage extends JFrame {
         return false;
     }
 
+    public Clip Sound(String file, boolean Loop){ //사운드 재생용 메소드
+        Clip clip = null;
+        try {
+            AudioInputStream ais = AudioSystem.getAudioInputStream(new BufferedInputStream(new FileInputStream(file)));
+            clip = AudioSystem.getClip();
+            clip.open(ais);
+
+            clip.start();
+            if (Loop) clip.loop(-1);   // 계속 재생할 것인지
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return clip;
+    }
 
     public static void main(String[] args) {
         LoginPage frame = new LoginPage();
