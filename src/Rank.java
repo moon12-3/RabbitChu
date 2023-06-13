@@ -58,9 +58,16 @@ public class Rank extends JFrame {
             e.printStackTrace();
         }
 
+        //main 버튼 크기를 줄이는 코드
+        Image mainBtn = introIcon.getImage();
+        Image changeMainBtn = mainBtn.getScaledInstance(198, 78, Image.SCALE_SMOOTH);
+        introIcon = new ImageIcon(changeMainBtn);
+
+
+
         // 버튼, 라벨 추가 및 설정
         JButton btnIntro = new JButton(introIcon);
-        btnIntro.setBounds(40, 655, 90, 90);
+        btnIntro.setBounds(950, 650, 200, 80);
         btnIntro.setBorderPainted(false);
         btnIntro.setContentAreaFilled(false);
         btnIntro.setFocusPainted(false);
