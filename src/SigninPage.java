@@ -1,3 +1,6 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -17,10 +20,13 @@ public class SigninPage extends JFrame {
     JButton okBtn = new JButton("OK");; //확인창 버튼
 
     boolean signTF;
+    Clip ost;
 
     public SigninPage() {
         // JFrame 타이틀 설정
         setTitle("YourName");
+
+        ost = Sound("src/bgm/intro.wav", true);
 
         Dimension screen = tk.getScreenSize();
         int xpos = (int) (screen.getWidth() / 2 - FRAME_WIDTH / 2);
@@ -138,6 +144,7 @@ public class SigninPage extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         // cancel 버튼 눌렀을 때 처리할 내용
                         if(signTF == true){
+                            ost.stop();
                             dispose();
                             new LoginPage();
                             msgPanel.setVisible(false);
@@ -168,6 +175,7 @@ public class SigninPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Main 클래스의 main 메소드를 호출하여 프로그램 종료
+                ost.stop();
                 Main.main(new String[] {});
                 // 현재 로그인 창은 닫아주어야 함
                 dispose();
@@ -183,6 +191,7 @@ public class SigninPage extends JFrame {
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ost.stop();
                 LoginPage loginPage = new LoginPage();
                 loginPage.setVisible(true);
                 dispose();
@@ -264,6 +273,22 @@ public class SigninPage extends JFrame {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public Clip Sound(String file, boolean Loop){ //사운드 재생용 메소드
+        Clip clip = null;
+        try {
+            AudioInputStream ais = AudioSystem.getAudioInputStream(new BufferedInputStream(new FileInputStream(file)));
+            clip = AudioSystem.getClip();
+            clip.open(ais);
+
+            clip.start();
+            if (Loop) clip.loop(-1);   // 계속 재생할 것인지
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return clip;
     }
 
     public static void main(String[] args) {

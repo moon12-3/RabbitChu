@@ -18,13 +18,12 @@ public class Rank extends JFrame {
     JLabel[] scoreArr = new JLabel[5];
     JLabel[] scoreArr2 = new JLabel[5];
     Font font;
-    Color colorBrown = new Color(0x312500);
-
+    Color color = Color.decode("#0088d3");
     Clip ost;
 
     // 사용 이미지 불러오기
-    Image backGround = new ImageIcon("src/img/rankbackground.png").getImage();
-    ImageIcon introIcon = new ImageIcon("src/img/back_intro.png");
+    Image backGround = new ImageIcon("src/img/rank/rankbackground.png").getImage();
+    ImageIcon introIcon = new ImageIcon("src/img/rank/back_intro.png");
 
     public void init() throws IOException, FontFormatException { // 컴포넌트 세팅
         width = 1200;
@@ -97,29 +96,29 @@ public class Rank extends JFrame {
 
             numArr[i] = new JLabel(String.valueOf(num++));
             numArr[i].setFont(font.deriveFont(Font.BOLD, 25));
-            numArr[i].setForeground(colorBrown);
-            numArr[i].setBounds(260, 270+70*i, 150, 60);
+            numArr[i].setForeground(color);
+            numArr[i].setBounds(260, 330+70*i, 150, 60);
             numArr[i].setHorizontalAlignment(JLabel.CENTER);
             panel.add(numArr[i]);
 
             nameArr[i] = new JLabel(name);
             nameArr[i].setFont(font.deriveFont(Font.BOLD, 25));
-            nameArr[i].setForeground(colorBrown);
-            nameArr[i].setBounds(400, 270+70*i, 150, 60);
+            nameArr[i].setForeground(color);
+            nameArr[i].setBounds(400, 330+70*i, 150, 60);
             nameArr[i].setHorizontalAlignment(JLabel.CENTER);
             panel.add(nameArr[i]);
 
             scoreArr[i] = new JLabel(Integer.toString(first_score));
             scoreArr[i].setFont(font.deriveFont(Font.BOLD, 25));
-            scoreArr[i].setForeground(colorBrown);
-            scoreArr[i].setBounds(570, 270+70*i, 150, 60);
+            scoreArr[i].setForeground(color);
+            scoreArr[i].setBounds(570, 330+70*i, 150, 60);
             scoreArr[i].setHorizontalAlignment(JLabel.CENTER);
             panel.add(scoreArr[i]);
 
             scoreArr2[i] = new JLabel(Integer.toString(second_score));
             scoreArr2[i].setFont(font.deriveFont(Font.BOLD, 25));
-            scoreArr2[i].setForeground(colorBrown);
-            scoreArr2[i].setBounds(740, 270+70*i, 150, 60);
+            scoreArr2[i].setForeground(color);
+            scoreArr2[i].setBounds(740, 330+70*i, 150, 60);
             scoreArr2[i].setHorizontalAlignment(JLabel.CENTER);
             panel.add(scoreArr2[i]);
 

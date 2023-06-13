@@ -147,9 +147,9 @@ public class LoginPage extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         // cancel 버튼 눌렀을 때 처리할 내용
                         if (signTF == true) {
+                            ost.stop();
                             dispose();
                             new Frame_make();
-                            ost.stop();
                             msgPanel.setVisible(false);
                         } else {
                             msgPanel.setVisible(false);
@@ -173,6 +173,7 @@ public class LoginPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Main 클래스의 main 메소드를 호출하여 프로그램 종료
+                ost.stop();
                 Main.main(new String[]{});
                 // 현재 로그인 창은 닫아주어야 함
                 dispose();
@@ -188,6 +189,7 @@ public class LoginPage extends JFrame {
         SigninBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ost.stop();
                 SigninPage signinPage = new SigninPage();
                 signinPage.setVisible(true);
                 dispose();
