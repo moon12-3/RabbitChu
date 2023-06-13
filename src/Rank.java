@@ -53,7 +53,6 @@ public class Rank extends JFrame {
                     new FileInputStream("src/font/dunggeunmo.ttf"));
 
             font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
