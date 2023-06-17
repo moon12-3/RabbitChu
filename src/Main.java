@@ -126,7 +126,7 @@ class Frame_make extends JFrame implements KeyListener, Runnable{
         bullet = bullet.getScaledInstance(34, 34, Image.SCALE_SMOOTH);
         bullet2 = new ImageIcon("src/img/ebullet1.png").getImage();
         bullet2 = bullet2.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-        enemy = new ImageIcon("src/img/enemy2.png").getImage();
+        enemy = new ImageIcon("src/img/enemy1.png").getImage();
         boss_img = new ImageIcon("src/img/boss.png").getImage();
         heart = new ImageIcon("src/img/heart.png").getImage();//
         heart = heart.getScaledInstance(71, 65, Image.SCALE_SMOOTH);
@@ -315,8 +315,8 @@ class Frame_make extends JFrame implements KeyListener, Runnable{
                 break;
             case 4 :    // 보스 전용
                 if(eCnt%140==0||eCnt%145==0||eCnt%150==0||eCnt%155==0) {
-                    for(int i = 0; i < 12; i ++) {
-                        bu = new Bullet(en.x+140, en.y + 100, (30*i+(cnt%36)*10)%360,15, 1);
+                    for(int i = 0; i < 10; i ++) {
+                        bu = new Bullet(en.x+140, en.y + 100, (30*i+(cnt%36)*10)%360,13, 1);
                         bulletList.add(bu);
                     }
                 }
