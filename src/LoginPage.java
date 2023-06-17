@@ -1,4 +1,7 @@
 import javax.naming.Name;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -9,15 +12,28 @@ import java.io.InputStream;
 import java.sql.*;
 
 public class LoginPage extends JFrame {
+    Toolkit tk = Toolkit.getDefaultToolkit();
     private static final int FRAME_WIDTH = 1200;
     private static final int FRAME_HEIGHT = 800;
     private JPanel panel;
-
+    JLabel message = new JLabel(""); //회원가입 안내 확인창
+    JButton okBtn = new JButton("OK");; //확인창 버튼
     public Font font;
+    boolean signTF;
+    Clip ost;
 
     public LoginPage() {
-        // JFrame 타이틀 설정
         setTitle("YourName");
+
+        ost = Sound("src/bgm/intro.wav", true);
+
+        Dimension screen = tk.getScreenSize();
+        int xpos = (int) (screen.getWidth() / 2 - FRAME_WIDTH / 2);
+        int ypos = (int) (screen.getHeight() / 2 - FRAME_HEIGHT / 2);
+        setLocation(xpos, ypos);
+
+        // JFrame 크기 설정
+        setSize(FRAME_WIDTH, FRAME_HEIGHT);
 
         // 배경 이미지를 위한 JPanel 생성
         panel = new JPanel() {
@@ -59,14 +75,15 @@ public class LoginPage extends JFrame {
         NameText.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if(NameText.getText().equals("이름을 입력하세요")) {
+                if (NameText.getText().equals("이름을 입력하세요")) {
                     NameText.setText("");
                     NameText.setForeground(Color.black);
                 }
             }
+
             @Override
             public void focusLost(FocusEvent e) {
-                if(NameText.getText().isEmpty()) {
+                if (NameText.getText().isEmpty()) {
                     NameText.setForeground(Color.GRAY);
                     NameText.setText("이름을 입력하세요");
                 }
@@ -81,22 +98,27 @@ public class LoginPage extends JFrame {
         PasswordText.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if(PasswordText.getText().equals("비밀번호를 입력하세요")) {
+                if (PasswordText.getText().equals("비밀번호를 입력하세요")) {
                     PasswordText.setText("");
                     PasswordText.setForeground(Color.black);
                 }
             }
+
             @Override
             public void focusLost(FocusEvent e) {
-                if(PasswordText.getText().isEmpty()) {
+                if (PasswordText.getText().isEmpty()) {
                     PasswordText.setForeground(Color.GRAY);
                     PasswordText.setText("비밀번호를 입력하세요");
                 }
             }
         });
 
+        JPanel msgPanel = new JPanel();
+        msgPanel.setLayout(new FlowLayout());
+        msgPanel.setBounds(350, 300, 500, 200);
+
         JButton LoginBtn = new JButton("");
-        LoginBtn.setBounds(370, 500,150, 50);
+        LoginBtn.setBounds(370, 500, 150, 50);
         LoginBtn.setOpaque(false);
         LoginBtn.setContentAreaFilled(false);
         LoginBtn.setBorderPainted(false);
@@ -106,16 +128,44 @@ public class LoginPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String name = NameText.getText();
                 String password = PasswordText.getText();
-                if (isValidUser(name, password)) {
+                signTF = isValidUser(name, password);
+                msgPanel.setLayout(null);
+                message.setText("");//message 라벨 내용 리셋
+                if (signTF == true) {
                     System.out.println("로그인 되었습니다.");
+                    message = new JLabel("<html><body><center>로그인되었습니다.<br>" +
+                            "<br>게임을 실행합니다.<br></center></body></html>", JLabel.CENTER); //라벨 내용을 성공 내용을 바꿈
+                    message.setBounds(100, 20, 300, 100);
                 } else {
                     System.out.println("실패.");
+                    message = new JLabel("회원정보가 틀렸습니다.");
+                    message.setBounds(180, 20, 150, 100);
                 }
+                okBtn.setBounds(215, 120, 70, 40);
+                okBtn.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // cancel 버튼 눌렀을 때 처리할 내용
+                        if (signTF == true) {
+                            ost.stop();
+                            dispose();
+                            new Frame_make();
+                            msgPanel.setVisible(false);
+                        } else {
+                            msgPanel.setVisible(false);
+                        }
+
+                    }
+                });
+                msgPanel.add(message);
+                msgPanel.add(okBtn);
+                msgPanel.setVisible(true);
             }
         });
+        msgPanel.setVisible(false);
 
         JButton cancelBtn = new JButton("");
-        cancelBtn.setBounds(630, 500,170, 50);
+        cancelBtn.setBounds(630, 500, 170, 50);
         cancelBtn.setOpaque(false);
         cancelBtn.setContentAreaFilled(false);
         cancelBtn.setBorderPainted(false);
@@ -123,7 +173,8 @@ public class LoginPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Main 클래스의 main 메소드를 호출하여 프로그램 종료
-                Main.main(new String[] {});
+                ost.stop();
+                Main.main(new String[]{});
                 // 현재 로그인 창은 닫아주어야 함
                 dispose();
             }
@@ -138,6 +189,7 @@ public class LoginPage extends JFrame {
         SigninBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ost.stop();
                 SigninPage signinPage = new SigninPage();
                 signinPage.setVisible(true);
                 dispose();
@@ -145,17 +197,14 @@ public class LoginPage extends JFrame {
 
         });
 
-
         // JPanel을 JFrame에 추가
+        add(msgPanel);
         add(NameText);
         add(PasswordText);
         add(LoginBtn);
         add(cancelBtn);
         add(SigninBtn);
         add(panel);
-
-
-
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -164,36 +213,59 @@ public class LoginPage extends JFrame {
             }
         });
 
-        // JFrame 크기 설정
-        setSize(FRAME_WIDTH, FRAME_HEIGHT);
-
         // JFrame을 화면에 표시
         setVisible(true);
     }
+
     private static boolean isValidUser(String name, String password) {
         // DB 연결 정보
         String url = "jdbc:mysql://localhost:3306/rabbitScoreDB"; // DB 접속 URL
         String user = "root"; // DB 접속 계정
-        String passwd = "mirim"; // DB 접속 비밀번호
+        String passwd = "@summer0573"; // DB 접속 비밀번호
 
         // DB 연결
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
+        Connection conn;
+        Statement stmt;
+        ResultSet rs;
+        String checkingStr;
+        boolean select = false;
         try {
-            Class.forName("com.mysql.jdbc.Driver"); // JDBC 드라이버 로드
             conn = DriverManager.getConnection(url, user, passwd); // DB 접속
             stmt = conn.createStatement();
-
             // 사용자 인증 쿼리
-            String query = "SELECT * FROM users WHERE name='" + name + "' AND password='" + password + "'";
-            rs = stmt.executeQuery(query);
-            return rs.next(); // 결과가 존재하면 true, 그렇지 않으면 false 반환
-
-        } catch (ClassNotFoundException | SQLException e) {
+            checkingStr = "SELECT * FROM user_table WHERE name='" + name + "' AND userPassword='" + password + "'";
+            rs = stmt.executeQuery(checkingStr);
+            while (rs.next()) {
+                if (password.equals(rs.getString("userPassword"))) {
+                    System.out.println("로그인 성공");
+                    System.out.println(password.equals(rs.getString("userPassword")));
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("유저 존재하지 않음 " + select);
+            return false;
         }
         return false;
+    }
+
+    public Clip Sound(String file, boolean Loop){ //사운드 재생용 메소드
+        Clip clip = null;
+        try {
+            AudioInputStream ais = AudioSystem.getAudioInputStream(new BufferedInputStream(new FileInputStream(file)));
+            clip = AudioSystem.getClip();
+            clip.open(ais);
+
+            clip.start();
+            if (Loop) clip.loop(-1);   // 계속 재생할 것인지
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return clip;
     }
 
     public static void main(String[] args) {

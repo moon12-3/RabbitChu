@@ -13,16 +13,17 @@ public class Rank extends JFrame {
     int width, height;
     Toolkit tk = Toolkit.getDefaultToolkit();
 
+    JLabel[] numArr = new JLabel[5];
     JLabel[] nameArr = new JLabel[5];
     JLabel[] scoreArr = new JLabel[5];
+    JLabel[] scoreArr2 = new JLabel[5];
     Font font;
-    Color colorBrown = new Color(0x312500);
-
+    Color color = Color.decode("#0088d3");
     Clip ost;
 
     // 사용 이미지 불러오기
-    Image backGround = new ImageIcon("src/img/rankbackground.png").getImage();
-    ImageIcon introIcon = new ImageIcon("src/img/back_intro.png");
+    Image backGround = new ImageIcon("src/img/rank/rankbackground.png").getImage();
+    ImageIcon introIcon = new ImageIcon("src/img/rank/back_intro.png");
 
     public void init() throws IOException, FontFormatException { // 컴포넌트 세팅
         width = 1200;
@@ -52,39 +53,24 @@ public class Rank extends JFrame {
                     new FileInputStream("src/font/dunggeunmo.ttf"));
 
             font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
 
+        //main 버튼 크기를 줄이는 코드
+        Image mainBtn = introIcon.getImage();
+        Image changeMainBtn = mainBtn.getScaledInstance(198, 78, Image.SCALE_SMOOTH);
+        introIcon = new ImageIcon(changeMainBtn);
+
+
+
         // 버튼, 라벨 추가 및 설정
         JButton btnIntro = new JButton(introIcon);
-        btnIntro.setBounds(40, 655, 90, 90);
+        btnIntro.setBounds(950, 650, 200, 80);
         btnIntro.setBorderPainted(false);
         btnIntro.setContentAreaFilled(false);
         btnIntro.setFocusPainted(false);
 
-        JLabel nameLabel = new JLabel("NAME");
-        nameLabel.setHorizontalAlignment(JLabel.CENTER);
-        nameLabel.setFont(font.deriveFont(Font.BOLD, 43));
-        nameLabel.setForeground(colorBrown);
-        nameLabel.setBounds(200, 170, 150, 65);
-
-        JLabel firstScoreLabel = new JLabel("STAGE1");
-        firstScoreLabel.setHorizontalAlignment(JLabel.CENTER);
-        firstScoreLabel.setFont(font.deriveFont(Font.BOLD, 43));
-        firstScoreLabel.setForeground(colorBrown);
-        firstScoreLabel.setBounds(500, 170, 150, 65);
-
-        JLabel secondScoreLabel = new JLabel("STAGE2");
-        secondScoreLabel.setHorizontalAlignment(JLabel.CENTER);
-        secondScoreLabel.setFont(font.deriveFont(Font.BOLD, 43));
-        secondScoreLabel.setForeground(colorBrown);
-        secondScoreLabel.setBounds(820, 170, 150, 65);
-
-        panel.add(nameLabel);
-        panel.add(firstScoreLabel);
-        panel.add(secondScoreLabel);
         panel.add(btnIntro);
 
         // 화면 전환용 리스너
@@ -108,31 +94,39 @@ public class Rank extends JFrame {
 
         // 불러온 값을 next하여 각 jlabel 배열에 저장 후 add 하여 화면에 출력
         int i=0;
+        int num = 1;
         while(resultSet.next()){
             String name = resultSet.getString("name");
             int first_score = resultSet.getInt("first_score");
             int second_score = resultSet.getInt("second_score");
 
+            numArr[i] = new JLabel(String.valueOf(num++));
+            numArr[i].setFont(font.deriveFont(Font.BOLD, 25));
+            numArr[i].setForeground(color);
+            numArr[i].setBounds(260, 330+70*i, 150, 60);
+            numArr[i].setHorizontalAlignment(JLabel.CENTER);
+            panel.add(numArr[i]);
+
             nameArr[i] = new JLabel(name);
-            nameArr[i].setFont(font.deriveFont(Font.BOLD, 40));
-            nameArr[i].setForeground(colorBrown);
-            nameArr[i].setBounds(200, 270+70*i, 150, 60);
+            nameArr[i].setFont(font.deriveFont(Font.BOLD, 25));
+            nameArr[i].setForeground(color);
+            nameArr[i].setBounds(400, 330+70*i, 150, 60);
             nameArr[i].setHorizontalAlignment(JLabel.CENTER);
             panel.add(nameArr[i]);
 
             scoreArr[i] = new JLabel(Integer.toString(first_score));
-            scoreArr[i].setFont(font.deriveFont(Font.BOLD, 40));
-            scoreArr[i].setForeground(colorBrown);
-            scoreArr[i].setBounds(500, 270+70*i, 150, 60);
+            scoreArr[i].setFont(font.deriveFont(Font.BOLD, 25));
+            scoreArr[i].setForeground(color);
+            scoreArr[i].setBounds(570, 330+70*i, 150, 60);
             scoreArr[i].setHorizontalAlignment(JLabel.CENTER);
             panel.add(scoreArr[i]);
 
-            scoreArr[i] = new JLabel(Integer.toString(second_score));
-            scoreArr[i].setFont(font.deriveFont(Font.BOLD, 40));
-            scoreArr[i].setForeground(colorBrown);
-            scoreArr[i].setBounds(820, 270+70*i, 150, 60);
-            scoreArr[i].setHorizontalAlignment(JLabel.CENTER);
-            panel.add(scoreArr[i]);
+            scoreArr2[i] = new JLabel(Integer.toString(second_score));
+            scoreArr2[i].setFont(font.deriveFont(Font.BOLD, 25));
+            scoreArr2[i].setForeground(color);
+            scoreArr2[i].setBounds(740, 330+70*i, 150, 60);
+            scoreArr2[i].setHorizontalAlignment(JLabel.CENTER);
+            panel.add(scoreArr2[i]);
 
             System.out.println(name+" "+first_score+" "+second_score);
             i++;
