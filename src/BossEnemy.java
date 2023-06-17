@@ -16,6 +16,13 @@ public class BossEnemy extends Enemy {
         distanceMoved = 0;
     }
 
+
+    // 만약 1 챕터라면?
+    // ... 작성
+
+    // 만약 2 챕터라면?
+    // ...  작성
+
     public void move() {
         if (movingForward) { // true면 앞으로
             if (x > 300) {
