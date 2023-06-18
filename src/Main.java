@@ -399,7 +399,7 @@ class Frame_make extends JFrame implements KeyListener, Runnable{
 
             if(it.y > height+25) itemList.remove(i);
 
-            if(Crash(x, y, it.x, it.y-25, item_img[0], player[0],2)) { // 플레이어와 아이템 충돌
+            if(Crash(x, y, it.x, it.y-50, item_img[0], player[0],2)) { // 플레이어와 아이템 충돌
                 if(it.type%2==0) {  // 독버섯
                     isDamaged = true;
                     hp--;
