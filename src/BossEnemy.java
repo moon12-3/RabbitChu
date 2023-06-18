@@ -1,32 +1,80 @@
 import java.awt.*;
 
-public class BossEnemy extends Enemy{
-    int cnt;
-    int mode;
-    int a = -1;
+public class BossEnemy extends Enemy {
+    int cnt; // 움직임 타이밍
+    int mode; // 보스 이동 방향
+    int level;  // 챕터
+    int a = -1; // 앞뒤 이동 횟수
+    boolean movingForward; // 보스 앞으로 이동중인가?
+    int distanceMoved; // 보스가 앞, 뒤로 이동한 거리
+
     BossEnemy(int level, int x, int y) {
         super(x, y, 4);
-        hp = 1500+300*level;
+        hp = 1000 + 300 * level;
         mode = 4;
         cnt = 1;
+        this.level = level;
+        if(level == 2) {
+            movingForward = true;
+            distanceMoved = 0;
+        }
     }
 
     public void move() {
-        if (x > 600) {
-            x -= 35;
-        } else if (x < 0) {
-            x += 35;
-        } else {
-            if (mode == 4) {
-                x -= 5;
+        if(level==1) move1();
+        else if(level==2) move2();
+    }
+
+    // 1 챕터 보스 움직임
+    public void move1() {
+        if(x>600) {
+            x-=5;
+        }
+        cnt++;
+
+        if(cnt%300==0) {
+            cnt = 1;
+            a++;
+            mode = a%4;
+        }
+
+        switch (mode){
+            case 4 :
+                break;
+            case 0 :    // 위로 이동
+            case 1 :
+                if(y>60) y-=3;
+                if(cnt%60==0) mode=4;
+                break;
+            case 2 :    // 아래로 이동
+            case 3 :
+                if(y<500) y+=3;
+                if(cnt%60==0) mode=4;
+                break;
+        }
+    }
+
+    // 2챕터 보스 움직임
+    public void move2() {
+        if (movingForward) { // true면 앞으로
+            if (x > 300) {
+                x -= 7;
+                distanceMoved += 7;
             } else {
-                x += 10;
+                movingForward = false;
+            }
+        } else { // false면 뒤로
+            if (distanceMoved > 0) {
+                x += 7;
+                distanceMoved -= 7;
+            } else {
+                movingForward = true;
             }
         }
 
-        cnt++;
+        cnt++; // cnt를 증가시키고 mode 변경해서 보스 움직임 변경
 
-        if (cnt % 300 == 0) {
+        if (cnt % 180 == 0) {
             cnt = 1;
             a++;
             mode = a % 4;
@@ -37,24 +85,14 @@ public class BossEnemy extends Enemy{
                 break;
             case 0: // 위로 이동
             case 1:
-                if (y > 60) {
-                    y -= 10; // 움직임 활발하게 변경
-                }
-                if (cnt % 30 == 0) { // 움직임 활발하게 변경
-                    mode = 4;
-                }
+                if (y > 60) y -= 5;
+                if (cnt % 360 == 0) mode = 4;
                 break;
             case 2: // 아래로 이동
             case 3:
-                if (y < 500) {
-                    y += 10; // 움직임 활발하게 변경
-                }
-                if (cnt % 30 == 0) { // 움직임 활발하게 변경
-                    mode = 4;
-                }
+                if (y < 500) y += 5;
+                if (cnt % 360 == 0) mode = 4;
                 break;
         }
     }
-
 }
-

@@ -42,9 +42,11 @@ class Frame_make extends JFrame implements KeyListener, Runnable{
 
     int[] cx = {0, 0, 0};
     int bx = -4; // 배경 스크롤 변수
-    int bx2 = 2107;
+    int bx2 = 2275;
     int buDamage;   // 총알의 데미지
-    boolean KeyUp = false; //키보드 입력 처리를 위한 변수
+
+    //키보드 입력 처리를 위한 변수
+    boolean KeyUp = false;
     boolean KeyDown = false;
     boolean KeyLeft = false;
     boolean KeyRight = false;
@@ -102,7 +104,7 @@ class Frame_make extends JFrame implements KeyListener, Runnable{
     public void init() { // 컴포넌트 세팅
         x = 100; //캐릭터의 최초 좌표.
         y = 100;
-        hp = 233;    // 초기 캐릭터 생명 (하트 3개)
+        hp = 100;    // 초기 캐릭터 생명 (하트 3개)
         width = 1200;
         height = 800;
         speed = 10;
@@ -110,11 +112,12 @@ class Frame_make extends JFrame implements KeyListener, Runnable{
         buDamage = 5;
         playerStatus = 0;
 
-        level = 1;
+        level = 2;  // 레벨(스테이지 선택 시 기본 값 조정)
 
         ost = Sound("src/bgm/OST.wav", true);// 배경 음악
 
         backGround1 = new ImageIcon("src/img/background1.png").getImage();
+//        backGround1 = backGround1.getScaledInstance(2275, 800, Image.SCALE_SMOOTH);
         player = new Image[3];
         Image p = new ImageIcon("src/img/player.png").getImage();
         player[0] = p.getScaledInstance(85, 143, Image.SCALE_SMOOTH);
@@ -126,7 +129,7 @@ class Frame_make extends JFrame implements KeyListener, Runnable{
         bullet = bullet.getScaledInstance(34, 34, Image.SCALE_SMOOTH);
         bullet2 = new ImageIcon("src/img/ebullet1.png").getImage();
         bullet2 = bullet2.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-        enemy = new ImageIcon("src/img/enemy2.png").getImage();
+        enemy = new ImageIcon("src/img/enemy1.png").getImage();
         boss_img = new ImageIcon("src/img/boss.png").getImage();
         heart = new ImageIcon("src/img/heart.png").getImage();//
         heart = heart.getScaledInstance(71, 65, Image.SCALE_SMOOTH);
@@ -176,21 +179,41 @@ class Frame_make extends JFrame implements KeyListener, Runnable{
                 gameCnt++;
                 if(boss) {
                     // 보스가 생성되어 있는 경우
-                    if(level>=1) {
+                    if(level==1) {  // 1챕터
                         if(800<gameCnt&&gameCnt<1000) {
                             if(gameCnt%60==0) {
                                 enemyList.add(new Enemy(width+25, (int)(Math.random()*621)+30, 0));
                             }
                         }
                         else if(1600<gameCnt&&gameCnt<2200) {   // 보스전 후반부
-                            if(gameCnt%30==0) {
+                            if(gameCnt%50==0) {
                                 enemyList.add(new Enemy(width+25, (int)(Math.random()*621)+30, 0));
+                            }
+                        }
+                    }
+                    else if(level==2) { // 2챕터
+                        if(800<gameCnt&&gameCnt<1000) {
+                            if(gameCnt%50==0) {
+                                enemyList.add(new Enemy(width+25, (int)(Math.random()*621)+30, 0));
+                            }
+                        }
+                        else if(1300<gameCnt&&gameCnt<1800) {   // 보스전 중반부
+                            if(gameCnt%40==0) {
+                                enemyList.add(new Enemy(width+25, (int)(Math.random()*621)+30, 0));
+                            }
+                        }
+                        else if(2000<gameCnt&&gameCnt<2200) {   // 보스전 후반부
+                            if(gameCnt%40==0) {
+                                enemyList.add(new Enemy(width+25, (int)(Math.random()*621)+30, 1));
                             }
                         }
                     }
                     if(gameCnt>2210){   // 타임아웃
                         boss = false;
                         gameCnt=0;
+                        ost.stop();
+                        new GameOver();
+                        setVisible(false);
                         System.out.println("보스 타임아웃");
                     }
                 }
@@ -254,12 +277,12 @@ class Frame_make extends JFrame implements KeyListener, Runnable{
                 if(hp<=0){
                     break;
                 }
-                if(boss==false && level>1){
-                    deathTimer++;
-                }
-                if(deathTimer>=30) {
-                    break;
-                }
+//                if(boss==false && level>1){
+//                    deathTimer++;
+//                }
+//                if(deathTimer>=30) {
+//                    break;
+//                }
 
             }
             if(hp<=0){
@@ -315,8 +338,8 @@ class Frame_make extends JFrame implements KeyListener, Runnable{
                 break;
             case 4 :    // 보스 전용
                 if(eCnt%140==0||eCnt%145==0||eCnt%150==0||eCnt%155==0) {
-                    for(int i = 0; i < 12; i ++) {
-                        bu = new Bullet(en.x+140, en.y + 100, (30*i+(cnt%36)*10)%360,15, 1);
+                    for(int i = 0; i < 10; i ++) {
+                        bu = new Bullet(en.x+140, en.y + 100, (30*i+(cnt%36)*10)%360,13, 1);
                         bulletList.add(bu);
                     }
                 }
@@ -376,7 +399,7 @@ class Frame_make extends JFrame implements KeyListener, Runnable{
 
             if(it.y > height+25) itemList.remove(i);
 
-            if(Crash(x, y, it.x, it.y, item_img[0], player[0],2)) { // 플레이어와 아이템 충돌
+            if(Crash(x, y, it.x, it.y-50, item_img[0], player[0],2)) { // 플레이어와 아이템 충돌
                 if(it.type%2==0) {  // 독버섯
                     isDamaged = true;
                     hp--;
@@ -444,7 +467,7 @@ class Frame_make extends JFrame implements KeyListener, Runnable{
                     explosionList.add(ex);
                     ex = new Explosion((be.x+100) + boss_img.getWidth(null)/2, be.y/2 + boss_img.getHeight(null)/2, 0);
                     explosionList.add(ex);
-                    level++;
+                    level++;    // 레벨 클리어 여부 저장
                     System.out.println(level);
                 }
             }
