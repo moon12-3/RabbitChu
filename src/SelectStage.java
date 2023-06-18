@@ -63,9 +63,16 @@ public class SelectStage extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon imageIcon = new ImageIcon("src/img/selectpage/select_page_background.png");
-                Image image = imageIcon.getImage();
-                g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                if(!firstClear){
+                    ImageIcon imageIcon = new ImageIcon("src/img/selectpage/select_page_background.png");
+                    Image image = imageIcon.getImage();
+                    g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                }else{
+                    ImageIcon imageIcon = new ImageIcon("src/img/selectpage/stage_open.png");
+                    Image image = imageIcon.getImage();
+                    g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                }
+
             }
         };
 
@@ -73,21 +80,24 @@ public class SelectStage extends JFrame {
         panel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
         panel.setLayout(null);
 
-        JButton level1 = new JButton("LV.1");
-        level1.setBounds(240, 220, 700, 150);
-        level1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        JButton level1 = new JButton();
+        level1.setBounds(232, 227, 722, 135);
+        level1.setOpaque(false);
+        level1.setContentAreaFilled(false);
 
         level1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // level1 버튼을 눌렀을 때 이동
-                dispose();
+                new Frame_make();
+                setVisible(false);
             }
         });
 
-        JButton level2 = new JButton("LV.2");
-        level2.setBounds(240, 390, 700, 150);
-        level2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        JButton level2 = new JButton();
+        level2.setBounds(232, 392, 722, 135);
+        level2.setOpaque(false);
+        level2.setContentAreaFilled(false);
 
         if (!firstClear) {
             level2.setVisible(false);
@@ -96,7 +106,8 @@ public class SelectStage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // level2 버튼을 눌렀을 때 이동
-                dispose();
+                new Frame_make2();
+                setVisible(false);
             }
         });
 
@@ -132,6 +143,7 @@ public class SelectStage extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
                 System.exit(0);
             }
         });
