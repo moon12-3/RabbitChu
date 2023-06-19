@@ -19,7 +19,7 @@ public class ScoreUserDB {
 
         //임시 데이터
         //추후 입력값 받아 저장
-        String name = "정현진";
+        String name = "빤쮸토끼";
         int first_score = 0;
         int first_clear = 0;
         int second_score = 0;

@@ -10,13 +10,17 @@ public class SelectStage extends JFrame {
     private boolean firstClear;
     private boolean secondClear;
 
+    staticName sn = new staticName();
+    String name = sn.name;
+
     public void retrieveClearStatus() {
+        System.out.println("SelectStage: "+name);
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {
+            System.out.println(getName());
+            String query = "SELECT first_clear, second_clear FROM rabbit_table WHERE name = '" + name  + "';";
 
-            String query = "SELECT first_clear, second_clear FROM rabbit_table";
             ResultSet resultSet = statement.executeQuery(query);
-
             if (resultSet.next()) {
                 firstClear = resultSet.getBoolean("first_clear");
                 secondClear = resultSet.getBoolean("second_clear");
@@ -39,6 +43,7 @@ public class SelectStage extends JFrame {
     private JPanel panel;
 
     public SelectStage() {
+        retrieveClearStatus();
         // JFrame 타이틀 설정
         setTitle("SelectStage");
 
@@ -154,6 +159,7 @@ public class SelectStage extends JFrame {
 
 
     public static void main(String[] args) {
+
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new SelectStage();
